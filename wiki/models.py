@@ -36,13 +36,16 @@ class Article(models.Model):
     def get_absolute_url(self):
         return ('wiki_article_detail', (), { 'slug': self.slug })
 
+    def get_all_published(self):
+        return Article.objects.filter(is_published=True)
+
 class Edit(models.Model):
     """Stores an edit session"""
     
     article   = models.ForeignKey(Article)
     editor    = models.ForeignKey(User)
     edited_on = models.DateTimeField(auto_now_add=True)
-    summary   = models.CharField(max_length=100)
+    summary   = models.CharField(max_length=200)
 
     class Meta:
         ordering = ['-edited_on']

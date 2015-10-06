@@ -1,14 +1,23 @@
 from django.shortcuts import render
+from django.http import *
 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.views.generic.list_detail import object_list
+#from django.views.generic.list_detail import object_list
 
-from models import Article, Edit
+from models import Category, Article, Edit
 from forms import ArticleForm, EditForm
 
+def home(request):
+    """
+    home page view for the website
+    """
+    c = {'categories': Category.objects.all(), 'request': request}
+    return render_to_response('index.html', c, context_instance=RequestContext(request))
+
+"""
 @login_required
 def add_article(request):
     form = ArticleForm(request.POST or None)
@@ -22,6 +31,7 @@ def add_article(request):
     return render_to_response('wiki/article_form.html', 
                               { 'form': form },
                               context_instance=RequestContext(request))
+
 
 @login_required
 def edit_article(request, slug):
@@ -51,3 +61,4 @@ def article_history(request, slug):
     return  object_list(request, 
                         queryset=Edit.objects.filter(article__slug=slug),
                         extra_context={'article': article})
+"""
