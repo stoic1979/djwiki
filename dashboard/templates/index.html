@@ -6,20 +6,18 @@
 
 {% block body %}
 
-<br><a class="btn btn-primary" href="#" data-toggle="modal" data-target="#AddProjectModal">Add Project</a><br><br>
+<br><a class="btn btn-primary" href="#" data-toggle="modal" data-target="#AddCategoryModal">Add Category</a><br><br>
 <table class="table" border="0" cellspacing="5" cellpadding="5" width="100%">
     <tr class="info">
         <td><b>#</b></td>
-        <td><b>Project</b></td>
-        <td><b>Created By</b></td>
-        <td><b>Start Date</b></td>
+        <td><b>Category</b></td>
+        <td><b>Total Articles</b></td>
     </tr>
-    {% for project in projects %}
+    {% for category in categories %}
     <tr>
         <td>{{ forloop.counter }}</td>
-        <td><a href="/project/{{ project.id }}">{{ project.title }}</a></td>
-        <td>{{ project.owner }}</td>
-        <td>{{ project.start_date }}</td>
+        <td><a href="/category/{{ category.id }}">{{ category.title }}</a></td>
+        <td>{{ category.get_article_count }}</td>
     </tr>
     {% endfor %}
 </table>
