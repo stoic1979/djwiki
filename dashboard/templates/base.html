@@ -23,7 +23,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">djProMan</a>
+                <a class="navbar-brand" href="#">djWiki</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -31,40 +31,21 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
                     <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Projects<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories<span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        {% for project in projects %}
-                        <li><a href="/project/{{ project.id }}">{{ project.title }}</a></li>
+                        {% for category in categories %}
+                        <li><a href="/category/{{ category.id }}">{{ category.title }}</a></li>
                         {% endfor %}
                         <li role="separator" class="divider"></li>
                         <li><a href="#">Separated link</a></li>
                         <li role="separator" class="divider"></li>
                         <li>
-                        <a href="#" data-toggle="modal" data-target="#AddProjectModal">Add Project</a>
+                        <a href="#" data-toggle="modal" data-target="#AddCategoryModal">Add Category</a>
                         </li>
                     </ul>
                     </li>
 
-                    <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Issues<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Current Search</a></li>
-                        <li><a href="#">Search Issues</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#"><b>RECENT ISSUES</b></a></li>
-                        <li><a href="#">Issue 1</a></li>
-                        <li><a href="#">Issue 2</a></li>
-                        <li><a href="#">Issue 3</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#"><b>FILTERS</b></a></li>
-                        <li><a href="#">My Open Issues</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Something Todo</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Something more...</a></li>
-                    </ul>
-                    </li>
                     <li><a href="#">Create</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
@@ -73,8 +54,14 @@
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>
+                    {% if request and not request.user.is_anonymous %}
+                    Welcome: <b> {{ request.user }}</b>
+                    <a class="btn btn-inverse" href="/logout/">LOGOUT</a>
+                    {% else %}
+                    Welcome: <b>Guest</b>
+                    <a class="btn btn-inverse" href="/login/">LOGIN</a>
+                    {% endif %}
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a class="btn btn-inverse" href="#" data-toggle="modal" data-target="#HelpModal">HELP</a></li>
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src={% static "images/settings.png" %} width="30" height="30"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -93,23 +80,6 @@
         <!-- Navbar ends here here -->
         <div id="page-container">
 
-            <ul>
-                <img class="img-circle" src={% static "images/djproman.png" %} width="90" height="90"></img>
-                {% if request and not request.user.is_anonymous %}
-                Welcome: <b> {{ request.user }}</b>
-                {% else %}
-                Welcome: <b>Guest</b>
-                {% endif %}
-                <li class="btn btn-inverse"><a href="/">PROJECTS</a></li>
-                <li class="btn btn-inverse"><a href="/tasks/">TASKS</a></li>
-                <li class="btn btn-inverse"><a href="/progress/">PROGRESS</a></li>
-
-                {% if request and not request.user.is_anonymous %}
-                <li class="btn btn-inverse"><a href="/logout/">LOGOUT</a></li>
-                {% else %}
-                <li class="btn btn-inverse"><a href="/login/">LOGIN</a></li>
-                {% endif %}
-            </ul>
             <hr>
             {% block body %}{% endblock %}
 
@@ -118,47 +88,8 @@
             <center><br><p>Under development by weavebytes</p></center>
         </div>
 
-        <!-- Help Information Popup starts here -->
-
-        <div class="modal fade" id="HelpModal" tabindex="-1" 
-            role="dialog" aria-labelledby="helpModalLabel"     aria-hidden="true">
-            <div class="modal-dialog">      
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" 
-                            data-dismiss="modal">
-                            <span aria-hidden="true">&times;
-                                </span><span class="sr-only">
-                                Close</span></button>
-                        <h4 class="modal-title" id="myModalLabel">
-                            Help</h4>
-                    </div>
-                    <div class="modal-body">
-                        <b>djProman</b> is a project management tool developed by weavebytes.<br><br>
-                        <b>Features</b><hr>
-                        <ol>
-
-                            <li>Each project will have tasks and workers to handle them.</li>
-                            <li>Each task can have several comments by worker.</li>
-                            <li>Comments will have title, description and screenshots.</li>
-                            <li>There is a UI to add/edit/manage tasks.</li>
-                            <li>There is a UI to add/edit/manage comments.</li>
-                        </ol>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" 
-                            class="btn btn-default" data-dismiss="modal">
-                            Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Help Information Popup ends here -->
-
-        <!-- !!!!!!!!!!!!!! ADD PROJECT BEGINS HERE !!!!!!!!!!!!!-->
-        <div class="modal fade" id="AddProjectModal" tabindex="-1" 
+        <!-- !!!!!!!!!!!!!! ADD CATEGORY MODAL BEGINS HERE !!!!!!!!!!!!!-->
+        <div class="modal fade" id="AddCategoryModal" tabindex="-1" 
             role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
             <div class="modal-dialog">      
                 <div class="modal-content">
@@ -171,27 +102,19 @@
                                 </span><span class="sr-only">
                                 Close</span></button>
                         <h4 class="modal-title" id="myModalLabel">
-                            Add Project</h4>
+                            Add Category</h4>
                     </div>
                     <!-- end header of popup here -->
 
                     <!-- add body of popup here -->
                     <div class="modal-body">
                         <p style="color:red"> {{ state }} </p>
-                        <form method="post" action="/save_project/">{% csrf_token %}
+                        <form method="post" action="/save_category/">{% csrf_token %}
 
                             <div class="form-group">
                                 <label for="id_title">Title:</label>
                                 {{ form.title }}
                             </div>
-                            <p>
-                            <label for="id_shortname">Shortname:</label>
-                            {{ form.shortname }}
-                            </p>
-                            <p>
-                            <label for="id_description">Description:</label>
-                            {{ form.description }}
-                            </p>
                             <button class="btn btn-primary" type="submit">Save</button>
                         </form>
                     </div>
@@ -205,6 +128,6 @@
                 </div>
             </div>
         </div>
-        <!-- !!!!!!!!!!!!!! ADD PROJECT MODAL ENDS HERE !!!!!!!!!!!!!-->
+        <!-- !!!!!!!!!!!!!! ADD CATEGORY MODAL ENDS HERE !!!!!!!!!!!!!-->
     </body>
 </html>
