@@ -1,10 +1,9 @@
 from django import forms
 
-from models import Article, Edit
+from models import Category, Article, Edit
 
-class CategoryForm(forms.ModelForm):
-    class Meta:
-        model = Category
+class CategoryForm(forms.Form):
+  title = forms.CharField()
 
 class ArticleForm(forms.ModelForm):
     class Meta:
