@@ -10,6 +10,9 @@ class Category(models.Model):
 
     title = models.CharField(max_length=100)
 
+    def get_article_count(self):
+        return len(Article.objects.filter(category=self, is_published=True))
+
     def __unicode__(self):
         return self.title
 
