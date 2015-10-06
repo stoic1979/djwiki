@@ -13,6 +13,9 @@ class Category(models.Model):
     def get_article_count(self):
         return len(Article.objects.filter(category=self, is_published=True))
 
+    def get_published_articles(self):
+        return Article.objects.filter(category=self, is_published=True)
+
     def __unicode__(self):
         return self.title
 

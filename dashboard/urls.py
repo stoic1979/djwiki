@@ -20,6 +20,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'wiki.views.home', name='home'),
+    url(r'^category/(\d+)$', 'wiki.views.category', name='category'),
 
     # auth URL confs
     url(r'^login/$', 'wiki.views.login_page', name='login_page'),

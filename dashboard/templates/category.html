@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>djWiki - Home</title>
+{% endblock %}
+
+{% block body %}
+
+<br><a class="btn btn-primary" href="#" data-toggle="modal" data-target="#AddCategoryModal">Add Article</a><br><br>
+<table class="table" border="0" cellspacing="5" cellpadding="5" width="100%">
+    <tr class="info">
+        <td><b>#</b></td>
+        <td><b>Article</b></td>
+        <td><b>Publised On</b></td>
+        <td><b>Author</b></td>
+    </tr>
+    {% for article in articles %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><a href="/article/{{ article.id }}">{{ article.title }}</a></td>
+        <td>{{ article.created_on }}</td>
+        <td>{{ article.author }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<br> <br> <br> <br> <br> <br> <br>
+
+{% endblock %}

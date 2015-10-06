@@ -22,6 +22,14 @@ def home(request):
     c = {'categories': Category.objects.all(), 'request': request}
     return render_to_response('index.html', c, context_instance=RequestContext(request))
 
+def category(request, category_id):
+    """
+    page to show article list in a given category
+    """
+    category = Category.objects.get(id=category_id)
+    c = {'categories': Category.objects.all(), 'articles': category.get_published_articles(), 'request': request}
+    return render_to_response('category.html', c, context_instance=RequestContext(request))
+
 def login_page(request):
     """
     If user is authenticated, direct them to the next page. 
